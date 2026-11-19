@@ -1,6 +1,9 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from app.db.database import init_db
+from app.db.mongo import connect_mongo, close_mongo
 from app.routers import (
     auth,
     business,
@@ -11,10 +14,35 @@ from app.routers import (
     insights,
 )
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup and shutdown events."""
+    # ── Startup ──
+    print("🚀 Starting Founder OS API...")
+
+    # SQLite: create tables
+    await init_db()
+    print("✅ SQLite database initialised — tables created.")
+
+    # MongoDB Atlas: connect
+    try:
+        await connect_mongo()
+    except Exception as e:
+        print(f"⚠️  MongoDB connection failed (non-fatal): {e}")
+
+    yield
+
+    # ── Shutdown ──
+    await close_mongo()
+    print("👋 Founder OS API shut down.")
+
+
 app = FastAPI(
     title="Founder OS API",
     description="AI-powered business operating system for startups",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(

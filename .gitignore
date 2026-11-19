@@ -44,6 +44,7 @@ Thumbs.db
 
 # Database
 *.sqlite3
+*.db
 postgres_data/
 mongo_data/
 
