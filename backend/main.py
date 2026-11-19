@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.db.database import init_db
-from app.db.mongo import connect_mongo, close_mongo
+from app.db.mongo import connect_mongo, close_mongo, ensure_indexes
 from app.routers import (
     auth,
     business,
@@ -28,6 +28,7 @@ async def lifespan(app: FastAPI):
     # MongoDB Atlas: connect
     try:
         await connect_mongo()
+        await ensure_indexes()
     except Exception as e:
         print(f"⚠️  MongoDB connection failed (non-fatal): {e}")
 
@@ -61,6 +62,7 @@ app.include_router(business.router, prefix="/business", tags=["Business"], inclu
 app.include_router(decisions.router, prefix="/api/v1/decisions", tags=["Decisions"])
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(memory.router, prefix="/api/v1/memory", tags=["Memory"])
+app.include_router(memory.router, prefix="/memory", tags=["Memory"], include_in_schema=False)
 app.include_router(news.router, prefix="/api/v1/news", tags=["News"])
 app.include_router(insights.router, prefix="/api/v1/insights", tags=["Insights"])
 

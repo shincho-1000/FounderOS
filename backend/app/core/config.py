@@ -10,6 +10,12 @@ class Settings(BaseSettings):
 
     # Gemini
     GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+
+    # Memory (Phase 4)
+    SHORT_TERM_WINDOW: int = 10      # max interactions kept verbatim
+    LONG_TERM_TOP_K: int = 8         # max long-term entries returned to the LLM
+    SUMMARY_MAX_CHARS: int = 1500    # cap on the rolling summary length
 
     # SQLite (via async SQLAlchemy)
     DATABASE_URL: str = "sqlite+aiosqlite:///./founderos.db"
