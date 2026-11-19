@@ -1,20 +1,28 @@
 """
-Pydantic schemas for news articles.
+Pydantic schemas for news articles and news API responses (Phase 5).
 """
-from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
+from pydantic import BaseModel, Field
 
-class NewsItem(BaseModel):
+
+class NewsItemOut(BaseModel):
     title: str
     source: str
     url: str
     published_at: Optional[datetime] = None
-    snippet: Optional[str] = None
+    snippet: str = ""
+    country: Optional[str] = None
+
+
+# Backward-compatible alias for app.models.schemas.__init__
+NewsItem = NewsItemOut
 
 
 class NewsResponse(BaseModel):
     query: str
-    articles: list[NewsItem] = []
-    cached: bool = False
+    provider: str
+    cached: bool
+    count: int
+    items: list[NewsItemOut] = Field(default_factory=list)

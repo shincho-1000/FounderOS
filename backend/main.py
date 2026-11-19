@@ -64,6 +64,7 @@ app.include_router(documents.router, prefix="/api/v1/documents", tags=["Document
 app.include_router(memory.router, prefix="/api/v1/memory", tags=["Memory"])
 app.include_router(memory.router, prefix="/memory", tags=["Memory"], include_in_schema=False)
 app.include_router(news.router, prefix="/api/v1/news", tags=["News"])
+app.include_router(news.router, prefix="/news", tags=["News"], include_in_schema=False)
 app.include_router(insights.router, prefix="/api/v1/insights", tags=["Insights"])
 
 

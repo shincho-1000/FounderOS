@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     # Gemini
     GEMINI_API_KEY: str = ""
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GEMINI_MODEL: str = "gemini-3.8-flash"
 
     # Memory (Phase 4)
     SHORT_TERM_WINDOW: int = 10      # max interactions kept verbatim
@@ -24,10 +24,18 @@ class Settings(BaseSettings):
     MONGO_URI: str = "mongodb://localhost:27017"
     MONGO_DB: str = "founderos"
 
-    # News
+    # News (Phase 5 - GDELT DOC 2.0)
+    NEWS_PROVIDER: str = "gdelt"  # gdelt | duckduckgo | newsdata
+    GDELT_BASE_URL: str = "https://api.gdeltproject.org/api/v2/doc/doc"
+    NEWS_CACHE_TTL_SECONDS: int = 1800  # 30 min
+    NEWS_TIMESPAN: str = "7d"
+    NEWS_MAX_RECORDS: int = 10
+    NEWS_HTTP_TIMEOUT_SECONDS: int = 10
+    NEWS_MIN_REQUEST_INTERVAL: float = 5.5
+    NEWS_LANGUAGE: str = "english"
     NEWSDATA_API_KEY: str = ""
-    GDELT_ENABLED: bool = False
-    DUCKDUCKGO_ENABLED: bool = True
+    GDELT_ENABLED: bool = True
+    DUCKDUCKGO_ENABLED: bool = False
 
     # LlamaIndex
     LLAMA_INDEX_STORAGE_DIR: str = "./storage"

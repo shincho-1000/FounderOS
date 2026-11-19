@@ -102,3 +102,43 @@ parts  = await memory_service.format_for_prompt(ctx)
 await memory_service.record_decision(business_id, question, recommendation,
                                      decision_id, important=False)  # never raises
 ```
+
+---
+
+## News (Phase 5 — GDELT DOC 2.0)
+
+Free public news engine powered by GDELT DOC 2.0 (no API key required).
+Results are cached in MongoDB `news_cache` for `NEWS_CACHE_TTL_SECONDS` (30 min),
+rate-limited to at most 1 GDELT request per `NEWS_MIN_REQUEST_INTERVAL` (5.5s),
+and strictly fail-soft (always returns `200`, serving stale cache or `items: []` on upstream errors).
+
+When a user has no business yet, returns `400 {"detail": "Create a business profile first"}`.
+
+### `GET /news?query=&limit=5` → `200`
+- `query` (optional string): custom topic; if omitted, built from the business's `industry`.
+- `limit` (optional int, `1..20`, default `5`).
+
+```json
+{
+  "query": "\"food delivery\" sourcelang:english",
+  "provider": "gdelt",
+  "cached": false,
+  "count": 2,
+  "items": [
+    {
+      "title": "Food delivery platforms expand into 10-minute grocery logistics",
+      "source": "techcrunch.com",
+      "url": "https://techcrunch.com/2026/11/19/food-delivery-expansion",
+      "published_at": "2026-11-19T08:30:00+00:00",
+      "snippet": "",
+      "country": "United States"
+    }
+  ]
+}
+```
+
+### Internal API for the Phase 7 decision engine (`app/services/news_service.py`)
+```python
+items = await news_service.get_news(business_id, industry, question=question, limit=5)
+# Never raises; returns list[NewsItem] (capped at 15s total).
+```
