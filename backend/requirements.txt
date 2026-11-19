@@ -10,6 +10,7 @@ email-validator
 # ── SQLite (async) ────────────────────────────────────────────────────────────
 sqlalchemy>=2.0
 aiosqlite
+greenlet
 
 # ── MongoDB Atlas ─────────────────────────────────────────────────────────────
 motor>=3.4
@@ -17,10 +18,11 @@ pymongo[srv]>=4.7
 dnspython
 
 # ── Google Gemini ─────────────────────────────────────────────────────────────
+google-genai>=1.0
 google-generativeai
 
 # ── LlamaIndex ────────────────────────────────────────────────────────────────
-llama-index
+llama-index-core>=0.12.0
 llama-index-embeddings-gemini
 llama-index-llms-gemini
 
@@ -36,6 +38,7 @@ duckduckgo-search
 # ── Auth & Security ───────────────────────────────────────────────────────────
 python-jose[cryptography]
 passlib[bcrypt]
+bcrypt
 
 # ── Utilities ─────────────────────────────────────────────────────────────────
 python-dotenv
