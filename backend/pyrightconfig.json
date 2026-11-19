@@ -1,0 +1,17 @@
+{
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "venv",
+    "**/__pycache__"
+  ],
+  "venvPath": ".",
+  "venv": "venv",
+  "extraPaths": [
+    ".",
+    "venv/lib/python3.14/site-packages",
+    "/Users/shlokpatel/Desktop/hackathon2/backend",
+    "/Users/shlokpatel/Desktop/hackathon2/backend/venv/lib/python3.14/site-packages"
+  ]
+}

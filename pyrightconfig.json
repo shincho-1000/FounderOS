@@ -1,0 +1,31 @@
+{
+  "include": [
+    "backend"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "backend/venv",
+    ".venv",
+    "venv"
+  ],
+  "venvPath": "/Users/shlokpatel/Desktop/hackathon2",
+  "venv": ".venv",
+  "executionEnvironments": [
+    {
+      "root": "backend",
+      "extraPaths": [
+        "backend",
+        "backend/venv/lib/python3.14/site-packages",
+        "/Users/shlokpatel/Desktop/hackathon2/backend",
+        "/Users/shlokpatel/Desktop/hackathon2/backend/venv/lib/python3.14/site-packages"
+      ]
+    }
+  ],
+  "extraPaths": [
+    "backend",
+    "backend/venv/lib/python3.14/site-packages",
+    "/Users/shlokpatel/Desktop/hackathon2/backend",
+    "/Users/shlokpatel/Desktop/hackathon2/backend/venv/lib/python3.14/site-packages"
+  ]
+}
