@@ -6,7 +6,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.database import get_db
+from app.models.orm.business import Business
 from app.models.orm.user import User
+from app.services.business_service import BusinessService
 from app.services.user_service import UserService
 from app.utils.security import decode_access_token
 
@@ -41,3 +43,20 @@ async def get_current_user(
         raise credentials_exception
 
     return user
+
+
+async def get_current_business(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+) -> Business:
+    """Return the authenticated user's business, or 404 if not created yet.
+
+    Used by all later phases (memory, news, documents, decisions, insights).
+    """
+    business = await BusinessService.get_by_user_id(db, current_user.id)
+    if business is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No business profile found. Create one with POST /api/v1/business.",
+        )
+    return business
